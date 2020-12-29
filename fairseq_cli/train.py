@@ -209,7 +209,8 @@ def train(
 
     trainer.begin_epoch(epoch_itr.epoch)
 
-    valid_subsets = cfg.dataset.valid_subset.split(",")
+    # valid_subsets = cfg.dataset.valid_subset.split(",")
+    valid_subsets = cfg.task.valid_subset.split(",")
     should_stop = False
     num_updates = trainer.get_num_updates()
     for i, samples in enumerate(progress):

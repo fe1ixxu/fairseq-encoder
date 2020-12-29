@@ -267,6 +267,21 @@ class RobertaModel(FairseqEncoderModel):
         # upgrade children modules
         super().upgrade_state_dict_named(state_dict, name)
 
+        if (
+            state_dict["encoder.sentence_encoder.embed_tokens.weight"].shape
+            != self.encoder.sentence_encoder.embed_tokens.weight.shape
+        ):
+            state_dict[
+                "encoder.sentence_encoder.embed_tokens.weight"
+            ] = self.encoder.sentence_encoder.embed_tokens.weight
+        if (
+            state_dict["encoder.lm_head.weight"].shape
+            != self.encoder.lm_head.weight.shape
+        ):
+            state_dict["encoder.lm_head.weight"] = self.encoder.lm_head.weight
+        if state_dict["encoder.lm_head.bias"].shape != self.encoder.lm_head.bias.shape:
+            state_dict["encoder.lm_head.bias"] = self.encoder.lm_head.bias
+
         # Handle new classification heads present in the state dict.
         current_head_names = (
             []
@@ -419,6 +434,8 @@ class RobertaEncoder(FairseqEncoder):
             activation_fn=args.activation_fn,
             q_noise=args.quant_noise_pq,
             qn_block_size=args.quant_noise_pq_block_size,
+            freeze_embeddings=args.freeze_embeddings,
+            n_trans_layers_to_freeze=args.n_trans_layers_to_freeze,
         )
 
         self.lm_head = RobertaLMHead(
@@ -501,6 +518,9 @@ def base_architecture(args):
         args, "spectral_norm_classification_head", False
     )
 
+    args.freeze_embeddings = getattr(args, "freeze_embeddings", False)
+    args.n_trans_layers_to_freeze = getattr(args, "n_trans_layers_to_freeze", 0)
+
 
 @register_model_architecture("roberta", "roberta_base")
 def roberta_base_architecture(args):
@@ -514,6 +534,14 @@ def roberta_large_architecture(args):
     args.encoder_ffn_embed_dim = getattr(args, "encoder_ffn_embed_dim", 4096)
     args.encoder_attention_heads = getattr(args, "encoder_attention_heads", 16)
     base_architecture(args)
+
+
+@register_model_architecture("roberta", "roberta_xlarge")
+def roberta_xlarge_architecture(args):
+    args.encoder_layers = getattr(args, "encoder_layers", 36)
+    args.freeze_embeddings = getattr(args, "freeze_embeddings", True)
+    args.n_trans_layers_to_freeze = getattr(args, "n_trans_layers_to_freeze", 12)
+    roberta_large_architecture(args)
 
 
 @register_model_architecture("roberta", "xlm")

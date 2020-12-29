@@ -72,9 +72,12 @@ def main(cfg: DictConfig, override_args=None):
     criterion = task.build_criterion(saved_cfg.criterion)
     criterion.eval()
 
-    for subset in cfg.dataset.valid_subset.split(","):
+    # valid_subsets = cfg.dataset.valid_subset.split(",")
+    valid_subsets = task.args.valid_subset.split(",")
+    task.load_dataset("valid", combine=False, epoch=1, task_cfg=saved_cfg.task)
+
+    for subset in valid_subsets:
         try:
-            task.load_dataset(subset, combine=False, epoch=1, task_cfg=saved_cfg.task)
             dataset = task.dataset(subset)
         except KeyError:
             raise Exception("Cannot find dataset: " + subset)

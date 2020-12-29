@@ -166,7 +166,9 @@ class MultiLingualMaskedLMTask(LegacyFairseqTask):
 
         logger.info("Training on {0} languages: {1}".format(len(languages), languages))
         logger.info(
-            "Language to id mapping: ", {lang: id for id, lang in enumerate(languages)}
+            "Language to id mapping: {0}".format(
+                {lang: id for id, lang in enumerate(languages)}
+            )
         )
 
         mask_whole_words = self._get_whole_word_mask()
@@ -235,32 +237,29 @@ class MultiLingualMaskedLMTask(LegacyFairseqTask):
             )
             lang_datasets.append(lang_dataset)
 
-        dataset_lengths = np.array(
-            [len(d) for d in lang_datasets],
-            dtype=float,
-        )
+        dataset_lengths = np.array([len(d) for d in lang_datasets], dtype=float)
         logger.info(
-            "loaded total {} blocks for all languages".format(
-                dataset_lengths.sum(),
-            )
+            "loaded total {} blocks for all languages".format(dataset_lengths.sum())
         )
         if split == self.args.train_subset:
             # For train subset, additionally up or down sample languages.
             sample_probs = self._get_sample_prob(dataset_lengths)
             logger.info(
-                "Sample probability by language: ",
-                {
-                    lang: "{0:.4f}".format(sample_probs[id])
-                    for id, lang in enumerate(languages)
-                },
+                "Sample probability by language: {0}".format(
+                    {
+                        lang: "{0:.4f}".format(sample_probs[id])
+                        for id, lang in enumerate(languages)
+                    }
+                )
             )
             size_ratio = (sample_probs * dataset_lengths.sum()) / dataset_lengths
             logger.info(
-                "Up/Down Sampling ratio by language: ",
-                {
-                    lang: "{0:.2f}".format(size_ratio[id])
-                    for id, lang in enumerate(languages)
-                },
+                "Up/Down Sampling ratio by language: {0}".format(
+                    {
+                        lang: "{0:.2f}".format(size_ratio[id])
+                        for id, lang in enumerate(languages)
+                    }
+                )
             )
 
             resampled_lang_datasets = [
@@ -294,11 +293,7 @@ class MultiLingualMaskedLMTask(LegacyFairseqTask):
             shuffle = np.random.permutation(len(dataset))
 
         self.datasets[split] = SortDataset(
-            dataset,
-            sort_order=[
-                shuffle,
-                dataset.sizes,
-            ],
+            dataset, sort_order=[shuffle, dataset.sizes],
         )
 
     def build_dataset_for_inference(self, src_tokens, src_lengths, sort=True):

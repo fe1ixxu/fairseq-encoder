@@ -31,7 +31,10 @@ class FairseqLRScheduler(object):
 
     def load_state_dict(self, state_dict):
         """Load an LR scheduler state dict."""
-        self.best = state_dict["best"]
+        try:
+            self.best = state_dict["best"]
+        except KeyError:
+            self.best = None
 
     def step_begin_epoch(self, epoch):
         """Update the learning rate at the beginning of the given epoch."""
