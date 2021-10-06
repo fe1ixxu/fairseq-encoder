@@ -1,214 +1,88 @@
-<p align="center">
-  <img src="docs/fairseq_logo.png" width="150">
-  <br />
-  <br />
-  <a href="https://github.com/pytorch/fairseq/blob/master/LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-blue.svg" /></a>
-  <a href="https://github.com/pytorch/fairseq/releases"><img alt="Latest Release" src="https://img.shields.io/github/release/pytorch/fairseq.svg" /></a>
-  <a href="https://github.com/pytorch/fairseq/actions?query=workflow:build"><img alt="Build Status" src="https://github.com/pytorch/fairseq/workflows/build/badge.svg" /></a>
-  <a href="https://fairseq.readthedocs.io/en/latest/?badge=latest"><img alt="Documentation Status" src="https://readthedocs.org/projects/fairseq/badge/?version=latest" /></a>
-</p>
+# BETTER Encoders (En/Fa)
 
---------------------------------------------------------------------------------
+## Building Vocabulary
 
-Fairseq(-py) is a sequence modeling toolkit that allows researchers and
-developers to train custom models for translation, summarization, language
-modeling and other text generation tasks.
+`cc100` and `sentencepiece` are used to build vocabulary. Due to memory limitation, only a small subset is used to build the vocabulary. We additionally manually enforce full coverage of Arabic unicode characters post-normalization.
 
-We provide reference implementations of various sequence modeling papers:
-
-<details><summary>List of implemented papers</summary><p>
-
-* **Convolutional Neural Networks (CNN)**
-  + [Language Modeling with Gated Convolutional Networks (Dauphin et al., 2017)](examples/language_model/conv_lm/README.md)
-  + [Convolutional Sequence to Sequence Learning (Gehring et al., 2017)](examples/conv_seq2seq/README.md)
-  + [Classical Structured Prediction Losses for Sequence to Sequence Learning (Edunov et al., 2018)](https://github.com/pytorch/fairseq/tree/classic_seqlevel)
-  + [Hierarchical Neural Story Generation (Fan et al., 2018)](examples/stories/README.md)
-  + [wav2vec: Unsupervised Pre-training for Speech Recognition (Schneider et al., 2019)](examples/wav2vec/README.md)
-* **LightConv and DynamicConv models**
-  + [Pay Less Attention with Lightweight and Dynamic Convolutions (Wu et al., 2019)](examples/pay_less_attention_paper/README.md)
-* **Long Short-Term Memory (LSTM) networks**
-  + Effective Approaches to Attention-based Neural Machine Translation (Luong et al., 2015)
-* **Transformer (self-attention) networks**
-  + Attention Is All You Need (Vaswani et al., 2017)
-  + [Scaling Neural Machine Translation (Ott et al., 2018)](examples/scaling_nmt/README.md)
-  + [Understanding Back-Translation at Scale (Edunov et al., 2018)](examples/backtranslation/README.md)
-  + [Adaptive Input Representations for Neural Language Modeling (Baevski and Auli, 2018)](examples/language_model/README.adaptive_inputs.md)
-  + [Lexically constrained decoding with dynamic beam allocation (Post & Vilar, 2018)](examples/constrained_decoding/README.md)
-  + [Transformer-XL: Attentive Language Models Beyond a Fixed-Length Context](examples/truncated_bptt/README.md)
-  + [Mixture Models for Diverse Machine Translation: Tricks of the Trade (Shen et al., 2019)](examples/translation_moe/README.md)
-  + [RoBERTa: A Robustly Optimized BERT Pretraining Approach (Liu et al., 2019)](examples/roberta/README.md)
-  + [Facebook FAIR's WMT19 News Translation Task Submission (Ng et al., 2019)](examples/wmt19/README.md)
-  + [Jointly Learning to Align and Translate with Transformer Models (Garg et al., 2019)](examples/joint_alignment_translation/README.md )
-  + [Multilingual Denoising Pre-training for Neural Machine Translation (Liu et at., 2020)](examples/mbart/README.md)
-  + [Neural Machine Translation with Byte-Level Subwords (Wang et al., 2020)](examples/byte_level_bpe/README.md)
-  + [Unsupervised Quality Estimation for Neural Machine Translation (Fomicheva et al., 2020)](examples/unsupervised_quality_estimation/README.md)
-  + [wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations (Baevski et al., 2020)](examples/wav2vec/README.md)
-  + [Generating Medical Reports from Patient-Doctor Conversations Using Sequence-to-Sequence Models (Enarvi et al., 2020)](examples/pointer_generator/README.md)
-  + [Linformer: Self-Attention with Linear Complexity (Wang et al., 2020)](examples/linformer/README.md)
-  + [Cross-lingual Retrieval for Iterative Self-Supervised Training (Tran et al., 2020)](examples/criss/README.md)
-  + [Deep Transformers with Latent Depth (Li et al., 2020)](examples/latent_depth/README.md)
-* **Non-autoregressive Transformers**
-  + Non-Autoregressive Neural Machine Translation (Gu et al., 2017)
-  + Deterministic Non-Autoregressive Neural Sequence Modeling by Iterative Refinement (Lee et al. 2018)
-  + Insertion Transformer: Flexible Sequence Generation via Insertion Operations (Stern et al. 2019)
-  + Mask-Predict: Parallel Decoding of Conditional Masked Language Models (Ghazvininejad et al., 2019)
-  + [Levenshtein Transformer (Gu et al., 2019)](examples/nonautoregressive_translation/README.md)
-* **Finetuning**
-  + [Better Fine-Tuning by Reducing Representational Collapse (Aghajanyan et al. 2020)](examples/rxf/README.md)
-
-</p></details>
-
-### What's New:
-
-* November 2020: Adopted the [Hydra](https://github.com/facebookresearch/hydra) configuration framework
-  * [see documentation explaining how to use it for new and existing projects](docs/hydra_integration.md)
-* November 2020: [fairseq 0.10.0 released](https://github.com/pytorch/fairseq/releases/tag/v0.10.0)
-* October 2020: [Added R3F/R4F (Better Fine-Tuning) code](examples/rxf/README.md)
-* October 2020: [Deep Transformer with Latent Depth code released](examples/latent_depth/README.md)
-* October 2020: [Added CRISS models and code](examples/criss/README.md)
-* September 2020: [Added Linformer code](examples/linformer/README.md)
-* September 2020: [Added pointer-generator networks](examples/pointer_generator/README.md)
-* August 2020: [Added lexically constrained decoding](examples/constrained_decoding/README.md)
-* August 2020: [wav2vec2 models and code released](examples/wav2vec/README.md)
-* July 2020: [Unsupervised Quality Estimation code released](examples/unsupervised_quality_estimation/README.md)
-
-<details><summary>Previous updates</summary><p>
-
-* May 2020: [Follow fairseq on Twitter](https://twitter.com/fairseq)
-* April 2020: [Monotonic Multihead Attention code released](examples/simultaneous_translation/README.md)
-* April 2020: [Quant-Noise code released](examples/quant_noise/README.md)
-* April 2020: [Initial model parallel support and 11B parameters unidirectional LM released](examples/megatron_11b/README.md)
-* March 2020: [Byte-level BPE code released](examples/byte_level_bpe/README.md)
-* February 2020: [mBART model and code released](examples/mbart/README.md)
-* February 2020: [Added tutorial for back-translation](https://github.com/pytorch/fairseq/tree/master/examples/backtranslation#training-your-own-model-wmt18-english-german)
-* December 2019: [fairseq 0.9.0 released](https://github.com/pytorch/fairseq/releases/tag/v0.9.0)
-* November 2019: [VizSeq released (a visual analysis toolkit for evaluating fairseq models)](https://facebookresearch.github.io/vizseq/docs/getting_started/fairseq_example)
-* November 2019: [CamemBERT model and code released](examples/camembert/README.md)
-* November 2019: [BART model and code released](examples/bart/README.md)
-* November 2019: [XLM-R models and code released](examples/xlmr/README.md)
-* September 2019: [Nonautoregressive translation code released](examples/nonautoregressive_translation/README.md)
-* August 2019: [WMT'19 models released](examples/wmt19/README.md)
-* July 2019: fairseq relicensed under MIT license
-* July 2019: [RoBERTa models and code released](examples/roberta/README.md)
-* June 2019: [wav2vec models and code released](examples/wav2vec/README.md)
-
-</p></details>
-
-### Features:
-
-* multi-GPU training on one machine or across multiple machines (data and model parallel)
-* fast generation on both CPU and GPU with multiple search algorithms implemented:
-  + beam search
-  + Diverse Beam Search ([Vijayakumar et al., 2016](https://arxiv.org/abs/1610.02424))
-  + sampling (unconstrained, top-k and top-p/nucleus)
-  + [lexically constrained decoding](examples/constrained_decoding/README.md) (Post & Vilar, 2018)
-* [gradient accumulation](https://fairseq.readthedocs.io/en/latest/getting_started.html#large-mini-batch-training-with-delayed-updates) enables training with large mini-batches even on a single GPU
-* [mixed precision training](https://fairseq.readthedocs.io/en/latest/getting_started.html#training-with-half-precision-floating-point-fp16) (trains faster with less GPU memory on [NVIDIA tensor cores](https://developer.nvidia.com/tensor-cores))
-* [extensible](https://fairseq.readthedocs.io/en/latest/overview.html): easily register new models, criterions, tasks, optimizers and learning rate schedulers
-* [flexible configuration](docs/hydra_integration.md) based on [Hydra](https://github.com/facebookresearch/hydra) allowing a combination of code, command-line and file based configuration
-
-We also provide [pre-trained models for translation and language modeling](#pre-trained-models-and-examples)
-with a convenient `torch.hub` interface:
-
-``` python
-en2de = torch.hub.load('pytorch/fairseq', 'transformer.wmt19.en-de.single_model')
-en2de.translate('Hello world', beam=5)
-# 'Hallo Welt'
+```bash
+vocab_name=spm.s4.2Bchar.unigram.128K.cov9999.arb_below_2k
+# Sampling
+shuf en.txt | head -c 4200000000 > en.sample.txt
+shuf ar.txt | head -c 4200000000 > ar.sample.txt
+# Training vocabulary
+# * vocab_size = 127998 to exclude special tokens
+spm_train \
+  --input fa.sample.txt,en.sample.txt \
+  --input_format text \
+  --vocab_size 127998 \
+  --model_type unigram \
+  --character_coverage 0.9999 \
+  --num_threads 24 \
+  --model_prefix $vocab_name \
+  --train_extremely_large_corpus true \
+  --accept_language fa,en \
+  --required_chars "؀؁؂؃؄؅؆؇؈؉؊،؍؎؏ؘؙؚؐؑؒؖؗ؛؞؟ؠءآأؤإئابةتثجحخدذرزسشصضطظعغػؼؽؾؿـفقكلمنهوىيًٌٍٟٓٔٗ٠١٢٣٤٥٦٧٨٩٪٫٬٭ٮٯٰٱٲٳٴٵٶٷٸٹٺٻټٽپٿڀځڂڃڄڅچڇڈډڊڋڌڍڎڏڐڑڒړڔڕږڗژڙښڛڜڝڞڟڠڡڢڣڤڥڦڧڨ
+ڨکڪګڬڭڮگڰڱڲڳڴڵڶڷڸڹںڻڼڽھڿۀہۂۃۄۅۆۇۈۉۊۋیۍێۏېۑےۓ۔ەۖۗۘۥۦۧۨ۩۪ۭ۫ۮۯ۰۱۲۳۴۵۶۷۸۹ۺۻۼ۽۾ۿݐݑݒݓݔݕݖݗݘݙݚݛݜݝݞݟݠݡݢݣݤݥݦݧݨݩݪݫݬݭݮݯݰݱݲݳݴݵݶݷݸݹݺݻݼݽݾݿ"
+# Building dictionary for Fairseq
+cat $vocab_name.vocab| tail -n +4 | awk '{print $1, 1}' >$vocab_name.dict
 ```
 
-See the PyTorch Hub tutorials for [translation](https://pytorch.org/hub/pytorch_fairseq_translation/)
-and [RoBERTa](https://pytorch.org/hub/pytorch_fairseq_roberta/) for more examples.
+## Preprocessing
 
-# Requirements and Installation
+Due to large corpus, we split the text into multiple shards.
 
-* [PyTorch](http://pytorch.org/) version >= 1.5.0
-* Python version >= 3.6
-* For training new models, you'll also need an NVIDIA GPU and [NCCL](https://github.com/NVIDIA/nccl)
-* **To install fairseq** and develop locally:
+```bash
+# Split the corpus
+mkdir splits tokenized
+split -n l/10 -d -a 1 en.txt en.txt.
+split -n l/10 -d -a 1 fa.txt fa.txt.
+mv en.txt.* fa.txt.* splits
 
-``` bash
-git clone https://github.com/pytorch/fairseq
-cd fairseq
-pip install --editable ./
+# Tokenize the corpus
+# * This only need to be done once for the first corpus
+spm_encode --model $vocab_name.model --input splits/fa.dev --output tokenized/fa.dev
+spm_encode --model $vocab_name.model --input splits/en.dev --output tokenized/en.dev
+# * This need to be repeated for every corpus (cc100, wiki, etc)
+for i in $(seq 0 9); do
+  spm_encode --model $vocab_name.model --input splits/fa.txt.$i --output tokenized/fa.txt.$i
+  spm_encode --model $vocab_name.model --input splits/en.txt.$i --output tokenized/en.txt.$i
+done
 
-# on MacOS:
-# CFLAGS="-stdlib=libc++" pip install --editable ./
+# Binarize the corpus
+# * --validpref only need to be provided for the first corpus
+for i in $(seq 0 9); do
+fairseq-preprocess \
+  --only-source \
+  --srcdict $vocab_name.dict \
+  --trainpref tokenized/fa.txt.$i \
+  --validpref tokenized/fa.dev \
+  --destdir EnFa-128K-bin/shard$i/fa \
+  --workers 24
+fairseq-preprocess \
+  --only-source \
+  --srcdict $vocab_name.dict \
+  --trainpref tokenized/en.txt.$i \
+  --validpref tokenized/en.dev \
+  --destdir EnFa-128K-bin/shard$i/en \
+  --workers 24
+done
 
-# to install the latest stable release (0.10.0)
-# pip install fairseq==0.10.0
+# Any additional corpus should be move to the same place
+corpus_name=wiki
+corpus_id=1
+for i in $(seq 0 9); do
+  for f in idx bin; do
+    mv $corpus_name/EnFa-128K-bin/shard$i/fa/train.$f EnFa-128K-bin/shard$i/fa/train$corpus_id.$f
+    mv $corpus_name/EnFa-128K-bin/shard$i/en/train.$f EnFa-128K-bin/shard$i/en/train$corpus_id.$f
+  done
+done
 ```
 
-* **For faster training** install NVIDIA's [apex](https://github.com/NVIDIA/apex) library:
 
-``` bash
-git clone https://github.com/NVIDIA/apex
-cd apex
-pip install -v --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" \
-  --global-option="--deprecated_fused_adam" --global-option="--xentropy" \
-  --global-option="--fast_multihead_attn" ./
-```
+## Training
 
-* **For large datasets** install [PyArrow](https://arrow.apache.org/docs/python/install.html#using-pip): `pip install pyarrow`
-* If you use Docker make sure to increase the shared memory size either with `--ipc=host` or `--shm-size`
- as command line options to `nvidia-docker run` .
+`train.sh` is used to trained the EnFa encoder.
 
-# Getting Started
+## Conversion
 
-The [full documentation](https://fairseq.readthedocs.io/) contains instructions
-for getting started, training new models and extending fairseq with new model
-types and tasks.
-
-# Pre-trained models and examples
-
-We provide pre-trained models and pre-processed, binarized test sets for several tasks listed below,
-as well as example training and evaluation commands.
-
-* [Translation](examples/translation/README.md): convolutional and transformer models are available
-* [Language Modeling](examples/language_model/README.md): convolutional and transformer models are available
-
-We also have more detailed READMEs to reproduce results from specific papers:
-
-* [Cross-lingual Retrieval for Iterative Self-Supervised Training (Tran et al., 2020)](examples/criss/README.md)
-* [wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations (Baevski et al., 2020)](examples/wav2vec/README.md)
-* [Unsupervised Quality Estimation for Neural Machine Translation (Fomicheva et al., 2020)](examples/unsupervised_quality_estimation/README.md)
-* [Training with Quantization Noise for Extreme Model Compression ({Fan*, Stock*} et al., 2020)](examples/quant_noise/README.md)
-* [Neural Machine Translation with Byte-Level Subwords (Wang et al., 2020)](examples/byte_level_bpe/README.md)
-* [Multilingual Denoising Pre-training for Neural Machine Translation (Liu et at., 2020)](examples/mbart/README.md)
-* [Reducing Transformer Depth on Demand with Structured Dropout (Fan et al., 2019)](examples/layerdrop/README.md)
-* [Jointly Learning to Align and Translate with Transformer Models (Garg et al., 2019)](examples/joint_alignment_translation/README.md)
-* [Levenshtein Transformer (Gu et al., 2019)](examples/nonautoregressive_translation/README.md)
-* [Facebook FAIR's WMT19 News Translation Task Submission (Ng et al., 2019)](examples/wmt19/README.md)
-* [RoBERTa: A Robustly Optimized BERT Pretraining Approach (Liu et al., 2019)](examples/roberta/README.md)
-* [wav2vec: Unsupervised Pre-training for Speech Recognition (Schneider et al., 2019)](examples/wav2vec/README.md)
-* [Mixture Models for Diverse Machine Translation: Tricks of the Trade (Shen et al., 2019)](examples/translation_moe/README.md)
-* [Pay Less Attention with Lightweight and Dynamic Convolutions (Wu et al., 2019)](examples/pay_less_attention_paper/README.md)
-* [Understanding Back-Translation at Scale (Edunov et al., 2018)](examples/backtranslation/README.md)
-* [Classical Structured Prediction Losses for Sequence to Sequence Learning (Edunov et al., 2018)](https://github.com/pytorch/fairseq/tree/classic_seqlevel)
-* [Hierarchical Neural Story Generation (Fan et al., 2018)](examples/stories/README.md)
-* [Scaling Neural Machine Translation (Ott et al., 2018)](examples/scaling_nmt/README.md)
-* [Convolutional Sequence to Sequence Learning (Gehring et al., 2017)](examples/conv_seq2seq/README.md)
-* [Language Modeling with Gated Convolutional Networks (Dauphin et al., 2017)](examples/language_model/README.conv.md)
-
-# Join the fairseq community
-
-* Twitter: https://twitter.com/fairseq
-* Facebook page: https://www.facebook.com/groups/fairseq.users
-* Google group: https://groups.google.com/forum/#!forum/fairseq-users
-
-# License
-
-fairseq(-py) is MIT-licensed.
-The license applies to the pre-trained models as well.
-
-# Citation
-
-Please cite as:
-
-``` bibtex
-@inproceedings{ott2019fairseq,
-  title = {fairseq: A Fast, Extensible Toolkit for Sequence Modeling},
-  author = {Myle Ott and Sergey Edunov and Alexei Baevski and Angela Fan and Sam Gross and Nathan Ng and David Grangier and Michael Auli},
-  booktitle = {Proceedings of NAACL-HLT 2019: Demonstrations},
-  year = {2019},
-}
-```
+`convert.py` convert the fairseq checkpoint to huggingface format. Note that it has additionally dependency on the source code of `transformers` tag `v2.11.0` since some of the module is not exposed.

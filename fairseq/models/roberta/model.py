@@ -536,9 +536,11 @@ def roberta_large_architecture(args):
     base_architecture(args)
 
 
+# wide model might be better than deep model
 @register_model_architecture("roberta", "roberta_xlarge")
 def roberta_xlarge_architecture(args):
     args.encoder_layers = getattr(args, "encoder_layers", 36)
+    # turn off freezing in the later training
     args.freeze_embeddings = getattr(args, "freeze_embeddings", True)
     args.n_trans_layers_to_freeze = getattr(args, "n_trans_layers_to_freeze", 12)
     roberta_large_architecture(args)
