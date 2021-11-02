@@ -1,5 +1,24 @@
 # BETTER Encoders (En/Fa)
 
+## Prerequisites
+```
+conda create -n pretrain python=3.7
+conda activate pretrain
+```
+* Install our fairseq repo
+  ```
+  cd fairseq-encoder
+  pip install --editable ./
+  ```
+* [hydra](https://github.com/facebookresearch/hydra) = 1.0.3
+  ```
+  pip install hydra-core==1.0.3
+  ```
+ * sentencepiece
+  ```
+  pip install sentencepiece
+  ```
+  
 ## Building Vocabulary
 
 `cc100` and `sentencepiece` are used to build vocabulary. Due to memory limitation, only a small subset is used to build the vocabulary. We additionally manually enforce full coverage of Arabic unicode characters post-normalization.
