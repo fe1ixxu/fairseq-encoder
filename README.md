@@ -18,7 +18,10 @@ conda activate pretrain
   ```
   pip install sentencepiece
   ```
-  
+* tensorboardX
+  ```
+  pip install tensorboardX
+  ```
 ## Building Vocabulary
 
 `cc100` and `sentencepiece` are used to build vocabulary. Due to memory limitation, only a small subset is used to build the vocabulary. We additionally manually enforce full coverage of Arabic unicode characters post-normalization.
