@@ -526,6 +526,13 @@ def base_architecture(args):
 def roberta_base_architecture(args):
     base_architecture(args)
 
+@register_model_architecture("roberta", "roberta_tiny")
+def roberta_large_architecture(args):
+    args.encoder_layers = getattr(args, "encoder_layers", 3)
+    args.encoder_embed_dim = getattr(args, "encoder_embed_dim", 768)
+    args.encoder_ffn_embed_dim = getattr(args, "encoder_ffn_embed_dim", 3072)
+    args.encoder_attention_heads = getattr(args, "encoder_attention_heads", 8)
+    base_architecture(args)
 
 @register_model_architecture("roberta", "roberta_large")
 def roberta_large_architecture(args):
