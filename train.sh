@@ -1,4 +1,4 @@
-MAX_UPDATE=850000 # 1300000 for en-ru
+MAX_UPDATE=1000000 # 1300000 for en-ru
 WARMUP=35000   # 40000 for en-ru
 # DECAY_STEP=200000
 INTERVAL=5000 
@@ -12,7 +12,7 @@ LR=4e-4
 
 # max_positions=512
 
-ARCH=roberta_large
+ARCH=roberta_base
 DATA_PATH=/export/c01/haoranxu/oscar/en-zh-databin
 STORE_PATH=/export/c01/haoranxu/LMs/temp
 # RESTORE_CKPT=/srv/local2/shijie/pretrained/xlmr.large/model.pt
